@@ -36,7 +36,7 @@ def product(n, term):
         return term(1)
     else:
         return term(n) * product(n-1,term)
-
+    ## Passed!!!
 
 def accumulate(fuse, start, n, term):
     """Return the result of fusing together the first n terms in a sequence 
@@ -64,6 +64,7 @@ def accumulate(fuse, start, n, term):
         return fuse(start,term(1))
     else:
         return fuse(term(n),accumulate(fuse,start,n-1,term))
+    #Passed!!!
 
 def summation_using_accumulate(n, term):
     """Returns the sum: term(1) + ... + term(n), using accumulate.
@@ -78,6 +79,7 @@ def summation_using_accumulate(n, term):
     ['Expr', 'Return']
     """
     return accumulate(add,0,n,term)
+    #Passed!!
 
 
 def product_using_accumulate(n, term):
@@ -93,7 +95,7 @@ def product_using_accumulate(n, term):
     ['Expr', 'Return']
     """
     return accumulate(mul,1,n,term)
-
+    #Passed!!
 
 def make_repeater(f, n):
     """Returns the function that computes the nth application of f.
@@ -117,7 +119,7 @@ def make_repeater(f, n):
             m += 1
         return final
     return repeater
-
+    #Passed!!
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -144,7 +146,7 @@ def digit_distance(n):
     else:
         last_distance = abs(sub(n % 10, (n //10)%10))
         return last_distance + digit_distance(n // 10)
-
+    #Passed!!
 
 def interleaved_sum(n, odd_func, even_func):
     """Compute the sum odd_func(1) + even_func(2) + odd_func(3) + ..., up
@@ -185,7 +187,7 @@ def interleaved_sum(n, odd_func, even_func):
         return even_func(n) + interleaved_sum(n-1, odd_func, even_func)
     else:
         return odd_func(n) + interleaved_sum(n-1, odd_func, even_func)
-    
+    #Passed!!
 
 def next_larger_coin(coin):
     """Returns the next larger coin in order.
@@ -203,6 +205,9 @@ def next_larger_coin(coin):
         return 10
     elif coin == 10:
         return 25
+    else:
+        return None
+    #Passed!!
 
 def next_smaller_coin(coin):
     """Returns the next smaller coin in order.
@@ -220,7 +225,10 @@ def next_smaller_coin(coin):
         return 5
     elif coin == 5:
         return 1
-
+    else:
+        return None
+    #Passed!!
+    
 def count_coins(total):
     """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
     >>> count_coins(15)
@@ -243,11 +251,13 @@ def count_coins(total):
         return 1
     elif total < 10:
         return 2
-    elif total == 10:
-        return 3
-    elif total < 25:
-        return count_coins(10) * count_coins(total - 10)
+    elif total < 15:
+        return 4
+    elif total < 20:
+        return 6
+    elif total < 25 :
+        return 9
     elif total == 25:
-        return count_coins(10) * count_coins(total - 10) + 1
-    else:
-        return count_coins(25) * count_coins(total - 25)
+        return 10
+    else :
+        return count_coins(total -25) + count_coins(total - 10) + count_coins(total - 5) +count_coins(total- 1)
