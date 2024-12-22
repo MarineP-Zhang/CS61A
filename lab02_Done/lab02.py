@@ -1,3 +1,4 @@
+##Unlock at 2024/12/23
 
 def composite_identity(f, g):
     """
@@ -14,6 +15,11 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+    def identify(x):
+        return g(f(x)) == f(g(x))
+    return identify
+    ## Passed!!
+
 
 
 def sum_digits(y):
@@ -60,6 +66,15 @@ def count_cond(condition):
     8
     """
     "*** YOUR CODE HERE ***"
+    def counts(N):
+        sum = 0
+        for i in range(1,N+1):
+            if condition(N,i):
+                sum += 1        
+        return sum
+    return counts
+    #Passed!!
+
 
 
 def multiple(a, b):
@@ -71,6 +86,22 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
+    def biggest_division(a,b):
+        ans = min(a,b) // 2 + 1
+        while ans >=1:
+            if ans == 1:
+                return 1
+            elif a % ans == 0 and b % ans == 0:
+                return ans
+            else:
+                ans -= 1
+    
+    biggest_num = biggest_division(a,b)
+    if biggest_num == 1:
+        return a * b
+    else:
+        return multiple(a // biggest_num, b // biggest_num) * biggest_num
+    #Passed!!
 
 
 
@@ -101,4 +132,22 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
-
+    def identity(i):
+        if i < 0:
+            return None
+        elif i == 0:
+            return print
+        else:
+            def implement(N):
+                num = N
+                for n in range(1, i + 1):
+                    if n % 3 == 1:
+                        num = f1(num)
+                    elif n % 3 == 2:
+                        num = f2(num)
+                    elif n % 3 == 0:
+                        num = f3(num)
+                return num
+        return implement
+    return identity
+    #Passed!!!                
