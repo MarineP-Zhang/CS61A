@@ -228,7 +228,7 @@ def next_smaller_coin(coin):
     else:
         return None
     #Passed!!
-    
+
 def count_coins(total):
     """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
     >>> count_coins(15)
@@ -247,17 +247,14 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
-    if total < 5:
-        return 1
-    elif total < 10:
-        return 2
-    elif total < 15:
-        return 4
-    elif total < 20:
-        return 6
-    elif total < 25 :
-        return 9
-    elif total == 25:
-        return 10
-    else :
-        return count_coins(total -25) + count_coins(total - 10) + count_coins(total - 5) +count_coins(total- 1)
+    def helper(total, smallest_coin):
+        if total < 0 or smallest_coin == None:
+            return 0
+        elif total == 0:
+            return 1
+        else:
+            with_smallest = helper(total - smallest_coin, smallest_coin)
+            without_smallest = helper(total, next_larger_coin(smallest_coin))
+            return with_smallest + without_smallest
+    return helper(total,1)
+    #Passed!!
