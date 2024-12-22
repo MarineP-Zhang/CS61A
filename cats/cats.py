@@ -9,7 +9,7 @@ from datetime import datetime
 # Phase 1 #
 ###########
 
-
+#Passed
 def pick(paragraphs, select, k):
     """Return the Kth paragraph from PARAGRAPHS for which SELECT called on the
     paragraph returns True. If there are fewer than K such paragraphs, return
@@ -31,9 +31,14 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    ans = [i for i in paragraphs if select(i)]
+    if k >= len(ans):
+        return ''
+    else:
+        return ans[k]
     # END PROBLEM 1
 
-
+#Passed
 def about(subject):
     """Return a select function that returns whether
     a paragraph contains one of the words in SUBJECT.
@@ -50,9 +55,19 @@ def about(subject):
     assert all([lower(x) == x for x in subject]), 'subjects should be lowercase.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    def select(phase):
+        nonpunc_phase = remove_punctuation(phase)
+        lower_phase = lower(nonpunc_phase)
+        phase_list = split(lower_phase)
+
+        for i in subject:
+            if i in phase_list:
+                return True
+        return False
+    return select
     # END PROBLEM 2
 
-
+#Passed
 def accuracy(typed, source):
     """Return the accuracy (percentage of words typed correctly) of TYPED
     when compared to the prefix of SOURCE that was typed.
@@ -80,9 +95,20 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if typed_words == source_words:
+        return 100.0
+    elif typed_words == [] or source_words == []:
+        return 0.0
+    else:
+        total = 0
+
+        for index in range(min(len(typed_words),len(source_words))):
+            if typed_words[index] == source_words[index]:
+                total += 1
+        return total / len(typed_words) * 100
     # END PROBLEM 3
 
-
+#Passed!!!
 def wpm(typed, elapsed):
     """Return the words-per-minute (WPM) of the TYPED string.
 
@@ -98,6 +124,7 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    return (60 / elapsed) * (len(typed) / 5)
     # END PROBLEM 4
 
 
