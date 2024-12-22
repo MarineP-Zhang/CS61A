@@ -132,7 +132,7 @@ def wpm(typed, elapsed):
 # Phase 2A #
 ############
 
-
+#Passed!!!
 def autocorrect(typed_word, word_list, diff_function, limit):
     """Returns the element of WORD_LIST that has the smallest difference
     from TYPED_WORD. If multiple words are tied for the smallest difference,
@@ -154,9 +154,21 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+
+    if typed_word in word_list:
+        return typed_word
+    
+    diff_list = [diff_function(typed_word,word,limit) for word in word_list]
+
+    if min(diff_list) > limit:
+        return typed_word
+    else:
+        for i in range(len(diff_list)):
+            if diff_list[i] == min(diff_list):
+                return word_list[i]
     # END PROBLEM 5
 
-
+#Passed!!
 def feline_fixes(typed, source, limit):
     """A diff function for autocorrect that determines how many letters
     in TYPED need to be substituted to create SOURCE, then adds the difference in
@@ -180,7 +192,16 @@ def feline_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    n = limit
+    if limit < 0:
+        return n + 100
+    if min(len(typed),len(source)) == 0:
+        return max(len(typed),len(source))
+    elif typed[0] != source[0]:
+        return 1 + feline_fixes(typed[1:], source[1:],limit - 1) ##[limit - 1] careful!!!
+    elif typed[0] == source[0]:
+        return feline_fixes(typed[1:], source[1:],limit)
+
     # END PROBLEM 6
 
 
