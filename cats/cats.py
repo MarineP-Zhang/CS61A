@@ -209,7 +209,7 @@ def feline_fixes(typed, source, limit):
 # Phase 2B #
 ############
 
-
+#Passed!
 def minimum_mewtations(typed, source, limit):
     """A diff function that computes the edit distance from TYPED to SOURCE.
     This function takes in a string TYPED, a string SOURCE, and a number LIMIT.
@@ -225,29 +225,31 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ___________: # Base cases should go here, you may add more base cases as needed.
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-    # Recursive cases should go below here
-    if ___________: # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    x = limit
+    if not source:
+        return len(typed)
+    elif not typed:
+        return len(source)
+    elif typed == source:
+        return 0
+    elif typed in source or source in typed:
+        return abs(len(typed) - len(source))
+    elif limit < 0:
+        return x + 1
     else:
-        add = ... # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        if typed[0] == source[0]:
+            return minimum_mewtations(typed[1:],source[1:],limit)
+        else:
+            add = minimum_mewtations(typed,source[1:],limit-1) + 1
+            remove = minimum_mewtations(typed[1:],source,limit - 1) + 1
+            substitute = minimum_mewtations(typed[1:],source[1:],limit - 1) + 1
+
+            return min(add,remove,substitute)
 
 
 def final_diff(typed, source, limit):
     """A diff function that takes in a string TYPED, a string SOURCE, and a number LIMIT.
     If you implement this function, it will be used."""
-    assert False, 'Remove this line to use your final_diff function.'
 
 FINAL_DIFF_LIMIT = 6 # REPLACE THIS WITH YOUR LIMIT
 
@@ -256,7 +258,7 @@ FINAL_DIFF_LIMIT = 6 # REPLACE THIS WITH YOUR LIMIT
 # Phase 3 #
 ###########
 
-
+#Passed!!!
 def report_progress(typed, source, user_id, upload):
     """Upload a report of your id and progress so far to the multiplayer server.
     Returns the progress so far.
@@ -282,6 +284,13 @@ def report_progress(typed, source, user_id, upload):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    total = 0
+    while total < len(typed) and typed[total] == source[total] :
+        total += 1
+    progress = total / len(source)
+    dict_arug = {'ID': user_id,'id':user_id,'progress':progress,'Progress':progress}
+    upload(dict_arug)
+    return(progress)
     # END PROBLEM 8
 
 
@@ -304,9 +313,19 @@ def time_per_word(words, timestamps_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    times = [
+    [0] * (len(timestamps_per_player[i]) - 1)
+    for i in range(len(timestamps_per_player))]
+
+    for i in range(len(timestamps_per_player)):
+        for j in range(len(timestamps_per_player[0]) - 1):
+            times[i][j] = timestamps_per_player[i][j + 1] - timestamps_per_player[i][j]
+    
+    return match(words,times)
+    
     # END PROBLEM 9
 
-
+#Passed!!
 def fastest_words(match):
     """Return a list of lists of which words each player typed fastest.
 
@@ -326,6 +345,19 @@ def fastest_words(match):
     word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    ans = []
+    for x in player_indices:
+        ans.append([])
+    all_time = get_all_times(match)
+    all_words = get_all_words(match)
+    for i in word_indices:
+        i_time = [all_time[n][i] for n in player_indices]
+        j = 0
+        while all_time[j][i] != min(i_time):
+            j += 1
+        ans[j].append(all_words[i])
+
+    return ans
     # END PROBLEM 10
 
 
@@ -374,7 +406,7 @@ def match_string(match):
     """A helper function that takes in a match data abstraction and returns a string representation of it"""
     return f"match({get_all_words(match)}, {get_all_times(match)})"
 
-enable_multiplayer = False  # Change to True when you're ready to race.
+enable_multiplayer = True
 
 ##########################
 # Command Line Interface #
