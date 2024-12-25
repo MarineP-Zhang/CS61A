@@ -1,3 +1,4 @@
+
 def divide(quotients, divisors):
     """Return a dictonary in which each quotient q is a key for the list of
     divisors that it divides evenly.
@@ -7,7 +8,7 @@ def divide(quotients, divisors):
     >>> divide(range(1, 5), range(20, 25))
     {1: [20, 21, 22, 23, 24], 2: [20, 22, 24], 3: [21, 24], 4: [20, 24]}
     """
-    return {____: ____ for ____ in ____}
+    return {q:[i for i in divisors if i % q == 0]for q in quotients}
 
 
 def buy(required_fruits, prices, total_amount):
@@ -29,9 +30,9 @@ def buy(required_fruits, prices, total_amount):
             print(cart)
         elif fruits and amount > 0:
             fruit = fruits[0]
-            price = ____
-            for k in ____:
-                add(____, ____, ____)
+            price = prices[fruit]
+            for k in range(1,amount // price + 1):
+                add(fruits[1:], amount - k* price,cart + display(fruit,k))
     add(required_fruits, total_amount, '')
 
 
@@ -64,6 +65,11 @@ def distance(city_a, city_b):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    lat_distance = abs(get_lat(city_a) - get_lat(city_b))
+    lon_distance = abs(get_lon(city_a) - get_lon(city_b))
+
+    return sqrt(lat_distance * lat_distance + lon_distance* lon_distance)
+
 
 def closer_city(lat, lon, city_a, city_b):
     """
@@ -81,6 +87,11 @@ def closer_city(lat, lon, city_a, city_b):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    coordinate = make_city('coordinate',lat,lon)
+    if distance(coordinate,city_a) < distance(coordinate,city_b):
+        return get_name(city_a)
+    else:
+        return get_name(city_b)
 
 def check_city_abstraction():
     """
