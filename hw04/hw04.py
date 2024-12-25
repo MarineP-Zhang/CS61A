@@ -21,7 +21,11 @@ def deep_map(f, s):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    for i in range(len(s)):
+        if (type(s[i]) != list):
+            s[i] = f(s[i])
+        else:
+            deep_map(f,s[i])
 
 HW_SOURCE_FILE=__file__
 
@@ -69,11 +73,13 @@ def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
     "*** YOUR CODE HERE ***"
+    return['planet',mass]
 
 def mass(p):
     """Select the mass of a planet."""
     assert is_planet(p), 'must call mass on a planet'
     "*** YOUR CODE HERE ***"
+    return p[1]
 
 def is_planet(p):
     """Whether p is a planet."""
@@ -126,6 +132,18 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    assert is_mobile(m) or is_planet(m)
+    if is_planet(m):
+        return True
+    else:
+        left_arm = left(m)
+        right_arm =right(m)
+
+        left_weight = length(left_arm) * total_mass(end(left_arm))
+        right_weight = length(right_arm) * total_mass(end(right_arm))
+
+        return left_weight == right_weight and balanced(end(left_arm)) and balanced(end(right_arm))
+
 
 
 HW_SOURCE_FILE=__file__
@@ -142,6 +160,24 @@ def max_path_sum(t):
     """
     "*** YOUR CODE HERE ***"
 
+    assert is_tree(t)
+    if len(branches(t)) == 1:
+        if is_leaf(branches(t)):
+            return label(t) + label(branches(t))
+        else:
+            return label(t) + max_path_sum(branches(t))
+
+    elif len(branches(t)) == 2:
+        left_branch = branches(t)[0]
+        right_branch = branches(t)[1]
+        if is_leaf(left_branch) and is_leaf(right_branch):
+            return max(label(left_branch), label(right_branch)) + label(t)
+        elif is_leaf(left_branch):
+            return max(label(left_branch),max_path_sum(right_branch)) + label(t)
+        elif is_leaf(right_branch):
+            return max(label(right_branch),max_path_sum(left_branch)) + label(t)
+        else:
+            return max(max_path_sum(left_branch),max_path_sum(right_branch)) + label(t)
 
 
 # Tree Data Abstraction
