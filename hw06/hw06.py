@@ -48,7 +48,39 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+    def __init__(self,name,price):
+        self.name = name
+        self.price = price
+        self.nums = 0
+        self.fund = 0
 
+    def vend(self):
+        if self.nums == 0:
+            return 'Nothing left to vend. Please restock.'
+        else:
+            if self.fund < self.price:
+                return 'Please add $' + str(self.price - self.fund) + ' more funds.'
+            elif self.fund > self.price:
+                return_nums = abs(self.price - self.fund)
+                self.fund = 0
+                self.nums -= 1
+                return 'Here is your '+ self.name + ' and $'+ str(return_nums) +' change.'
+            else:
+                self.fund = 0
+                self.nums -= 1
+                return 'Here is your ' + self.name + '.'
+    
+    def add_funds(self,nums):
+        if self.nums == 0:
+            return  'Nothing left to vend. Please restock. Here is your $' + str(nums) + '.'
+        else:
+            self.fund += nums
+            return 'Current balance: $' + str(self.fund)
+    
+    def restock(self,nums):
+        self.nums += nums
+        return 'Current '+ self.name + ' stock: ' + str(self.nums)
+            
 
 def store_digits(n):
     """Stores the digits of a positive number n in a linked list.
@@ -68,6 +100,11 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    result = Link.empty
+    while n > 0:
+        result = Link(n % 10,result)
+        n = n // 10
+    return result
 
 
 def deep_map_mut(func, lnk):
@@ -90,6 +127,8 @@ def deep_map_mut(func, lnk):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
+    
+    
 
 
 def two_list(vals, counts):
