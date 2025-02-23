@@ -190,19 +190,20 @@ def make_change(amount, coins):
     """
     if not coins:
         return None
-    if max(coins) * coins[max(coins)] < amount:
-        return None
     smallest = min(coins)
     rest = remove_one(coins, smallest)
     if amount < smallest:
         return None
     "*** YOUR CODE HERE ***"
-    ## 1. all smallest
-    if smallest * coins(smallest) >= amount:
-        if amount % smallest == 0:
-            return [smallest] * (amount // smallest)
+    if amount == smallest:
+        return [smallest]
+    else:
+        ans = make_change(amount - smallest,rest)
+        if ans:
+            return [smallest] + ans
         else:
-            if 
+            return make_change(amount,rest)
+
 
 
     
@@ -244,9 +245,9 @@ class ChangeMachine:
     True
     >>> m.change(2)
     [2]
-    >>> m.coins == {2: 1}
     True
     >>> m.change(3)
+    >>> m.coins == {2: 1}
     [3]
     >>> m.coins == {2: 1}
     True
@@ -301,4 +302,12 @@ class ChangeMachine:
     def change(self, coin):
         """Return change for coin, removing the result from self.coins."""
         "*** YOUR CODE HERE ***"
-
+        ans = make_change(coin,self.coins)
+        if coin in self.coins:
+            self.coins[coin] += 1
+        else:
+            self.coins[coin] = 1
+        for i in ans:
+            self.coins = remove_one(self.coins,i)
+        
+        return ans
